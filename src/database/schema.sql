@@ -105,3 +105,23 @@ INSERT INTO personagens (nome, imagem_url, descricao, frases, curiosidades) VALU
  '“A educação é a chave para o futuro.”',
  'Professor influente com vida pessoal complicada.'
 );
+
+CREATE TABLE interacao (
+    id SERIAL PRIMARY KEY, 
+    personagem_id INT NOT NULL,
+    nome_fan VARCHAR(100) NOT NULL,
+    tipo VARCHAR(50) NOT NULL, 
+    conteudo TEXT NOT NULL,
+    data_criacao TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY (personagem_id) REFERENCES personagens (id) ON DELETE CASCADE);
+    
+INSERT INTO interacao (personagem_id, nome_fan, tipo, conteudo) VALUES
+(1, 'João Silva', 'comentario', 'Adorei a determinação da Ruby!'),
+(2, 'Maria Oliveira', 'comentario', 'James é um personagem muito complexo e interessante.'),
+(4, 'Carlos Eduardo', 'comentario', 'Mortimer é muito controlador, mas essencial para a história.'),
+(6, 'Ana Costa', 'comentario', 'Alistair é um amigo muito leal e protetor.'),
+(7, 'Beatriz Santos', 'comentario', 'Elaine é tão doce e compreensiva!'),
+(9, 'Gabriela Rocha', 'comentario', 'Cyril é sempre o centro das atenções, adoro isso nele!'),
+(11, 'Larissa Oliveira', 'comentario', 'Ember é tão cheia de energia, uma personagem adorável.'),
+(12, 'Thiago Martins', 'comentario', 'Angus é um pai incrível, sempre dedicado à família.'),
+(14, 'Vinícius Ferreira', 'comentario', 'Graham é um professor muito influente, mas cheio de segredos.');

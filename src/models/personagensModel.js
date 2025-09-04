@@ -18,8 +18,27 @@ const createPersonagem=async(nome,imagem_url, descricao, frases, curiosidades)=>
     );
     return result.rows[0];
 }
-    module.exports={
-        getPersonagens,
-        getPersonagemById,
-        createPersonagem
-    }
+
+const updatePersonagem = async (id, nome, imagem_url, descricao, frases, curiosidades) => {
+    const result = await pool.query(
+        `UPDATE personagens
+         SET nome = $1, imagem_url = $2, descricao = $3, frases = $4, curiosidades = $5
+         WHERE id = $6 RETURNING *`,
+        [nome, imagem_url, descricao, frases, curiosidades, id]
+    );
+    return result.rows[0];
+};
+
+const deletePersonagem = async (id) => {
+    const result = await pool.query("DELETE FROM personagens WHERE id = $1 RETURNING *", [id]);
+    return result.rows[0];
+};
+
+module.exports = {
+    getPersonagens,
+    getPersonagemById,
+    createPersonagem,
+    updatePersonagem,
+    deletePersonagem
+};
+

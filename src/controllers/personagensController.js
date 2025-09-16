@@ -2,7 +2,8 @@ const Personagem =require('../models/personagensModel');
 
 const createPersonagem = async (req, res) => {
     try {
-        const {nome, imagem_url, descricao, frases, curiosidades} = req.body;
+    const {nome, descricao, frases, curiosidades} = req.body;
+    const imagem_url = req.file ? `/uploads/${req.file.filename}` : null;
         
         if(!nome || !descricao){
             return res.status(400).json({

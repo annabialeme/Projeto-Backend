@@ -11,28 +11,7 @@ const createQuiz = async (req, res) => {
             });
         }
 
-        const quiz = await Quiz.createQuiz(titulo, descricao);
-
-        for (const pergunta of perguntas) {
-            const { texto, alternativa_a, alternativa_b, alternativa_c, alternativa_d, resposta_correta } = pergunta;
-
-            if (!texto || !alternativa_a || !alternativa_b || !alternativa_c || !alternativa_d || !resposta_correta) {
-                return res.status(400).json({
-                    error: "Campos obrigatórios não foram preenchidos nas perguntas",
-                    details: "Cada pergunta deve conter 'texto', 'alternativa_a', 'alternativa_b', 'alternativa_c', 'alternativa_d' e 'resposta_correta'"
-                });
-            }
-
-            await Perguntas.createPergunta(
-                quiz.id,
-                texto,
-                alternativa_a,
-                alternativa_b,
-                alternativa_c,
-                alternativa_d,
-                resposta_correta
-            );
-        }
+        const quiz = await Quiz.createQuiz(titulo, descricao, perguntas);
 
         res.status(201).json({
             message: "Quiz criado com sucesso",
@@ -74,14 +53,9 @@ const getQuizById = async (req, res) => {
             return res.status(404).json({ error: "Quiz não encontrado." });
         }
 
-        const perguntas = await Perguntas.getPerguntas(id);
-
         res.status(200).json({
             message: "Quiz recuperado com sucesso.",
-            data: {
-                quiz,
-                perguntas
-            }
+            data: quiz
         });
     } catch (err) {
         console.error("Erro ao buscar quiz por ID:", err);
@@ -94,40 +68,17 @@ const updateQuiz = async (req, res) => {
         const { id } = req.params;
         const { titulo, descricao, perguntas } = req.body;
 
-        if (!titulo || !descricao) {
+        if (!titulo || !descricao || !perguntas || !Array.isArray(perguntas)) {
             return res.status(400).json({
                 error: "Campos obrigatórios não foram preenchidos",
-                details: "'titulo' e 'descricao' são obrigatórios"
+                details: "'titulo', 'descricao' e 'perguntas' são obrigatórios"
             });
         }
 
-        const quiz = await Quiz.updateQuiz(id, titulo, descricao);
+        const quiz = await Quiz.updateQuiz(id, titulo, descricao, perguntas);
 
         if (!quiz) {
             return res.status(404).json({ error: "Quiz não encontrado." });
-        }
-
-        if (perguntas && Array.isArray(perguntas)) {
-            for (const pergunta of perguntas) {
-                const { id: perguntaId, texto, alternativa_a, alternativa_b, alternativa_c, alternativa_d, resposta_correta } = pergunta;
-
-                if (!texto || !alternativa_a || !alternativa_b || !alternativa_c || !alternativa_d || !resposta_correta) {
-                    return res.status(400).json({
-                        error: "Campos obrigatórios não foram preenchidos nas perguntas",
-                        details: "Cada pergunta deve conter 'texto', 'alternativa_a', 'alternativa_b', 'alternativa_c', 'alternativa_d' e 'resposta_correta'"
-                    });
-                }
-
-                await Perguntas.updatePergunta(
-                    perguntaId,
-                    texto,
-                    alternativa_a,
-                    alternativa_b,
-                    alternativa_c,
-                    alternativa_d,
-                    resposta_correta
-                );
-            }
         }
 
         res.status(200).json({

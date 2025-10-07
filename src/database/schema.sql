@@ -17,18 +17,8 @@ CREATE TABLE quiz (
     id SERIAL PRIMARY KEY,
     titulo VARCHAR(255) NOT NULL,
     descricao TEXT NOT NULL,
+    perguntas JSON NOT NULL, 
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE perguntas (
-    id SERIAL PRIMARY KEY,
-    quiz_id INT NOT NULL REFERENCES quiz(id) ON DELETE CASCADE,
-    pergunta TEXT NOT NULL,
-    alternativa_a TEXT NOT NULL,
-    alternativa_b TEXT NOT NULL,
-    alternativa_c TEXT NOT NULL,
-    alternativa_d TEXT NOT NULL,
-    resposta_correta CHAR(1) NOT NULL
 );
 
 
@@ -65,17 +55,90 @@ INSERT INTO detalhes (nome, imagem, descricao_completa, frases, curiosidades) VA
 ('Helen Bell', 'https://i.pinimg.com/736x/8d/88/dd/8d88dda67466117d284108b7db23b80f.jpg', 'Mae de Ruby e Ember, Helen e amorosa e protetora.', 'Sempre estarei aqui para voces.', 'Mae carinhosa e cuidadosa.'),
 ('Graham Sutton', 'https://i.pinimg.com/736x/1c/fe/56/1cfe56f0edf689c33ae127cf26501ecc.jpg', 'Professor em Maxton Hall, Graham tem um caso com Lydia.', 'A educacao e a chave para o futuro.', 'Professor influente com vida pessoal complicada.');
 
-INSERT INTO quiz (titulo, descricao) VALUES
-('Quiz sobre Maxton Hall', 'Teste seus conhecimentos sobre a série Maxton Hall.');
-
-INSERT INTO perguntas (quiz_id, pergunta, alternativa_a, alternativa_b, alternativa_c, alternativa_d, resposta_correta) VALUES
-(1, 'Qual é o apelido de Ruby?', 'Ru', 'Roo', 'Ruby Red', 'R', 'C'),
-(1, 'Qual é o hobby favorito de James?', 'Pintura', 'Futebol', 'Fotografia', 'Escrever', 'C'),
-(1, 'Onde Ruby e James se conheceram?', 'Na escola', 'Em uma festa', 'Na biblioteca', 'No parque', 'A'),
-(1, 'Qual é o maior medo de Ruby?', 'Perder sua família', 'Ficar sozinha', 'Fracassar', 'Ser rejeitada', 'A'),
-(1, 'Qual é o sonho de James?', 'Ser escritor', 'Ser fotógrafo profissional', 'Ser músico', 'Ser professor', 'B'),
-(1, 'Quem é a melhor amiga de Ruby?', 'Lydia', 'Ember', 'Grace', 'Alice', 'A'),
-(1, 'Qual amigo de Ruby é apaixonado por música?', 'Finn', 'Liam', 'Henry', 'Tom', 'A'),
-(1, 'Quem ajuda Ruby a superar seus medos?', 'James', 'Lydia', 'Grace', 'Finn', 'A'),
-(1, 'Qual é o lema da escola Maxton Hall?', 'Excelência e Honra', 'Conhecimento é Poder', 'Unidos pela Educação', 'Aprender e Crescer', 'A'),
-(1, 'Qual é o evento mais esperado do ano na escola?', 'Baile de Inverno', 'Feira de Ciências', 'Campeonato de Debate', 'Festival de Artes', 'A');
+INSERT INTO quiz (titulo, descricao, perguntas) VALUES
+(
+    'Quiz sobre Maxton Hall',
+    'Teste seus conhecimentos sobre a série Maxton Hall.',
+    '[
+        {
+            "pergunta": "Qual é o apelido de Ruby?",
+            "alternativa_a": "Ru",
+            "alternativa_b": "Roo",
+            "alternativa_c": "Ruby Red",
+            "alternativa_d": "R",
+            "resposta_correta": "C"
+        },
+        {
+            "pergunta": "Qual é o hobby favorito de James?",
+            "alternativa_a": "Pintura",
+            "alternativa_b": "Futebol",
+            "alternativa_c": "Fotografia",
+            "alternativa_d": "Escrever",
+            "resposta_correta": "C"
+        },
+        {
+            "pergunta": "Onde Ruby e James se conheceram?",
+            "alternativa_a": "Na escola",
+            "alternativa_b": "Em uma festa",
+            "alternativa_c": "Na biblioteca",
+            "alternativa_d": "No parque",
+            "resposta_correta": "A"
+        },
+        {
+            "pergunta": "Qual é o maior medo de Ruby?",
+            "alternativa_a": "Perder sua família",
+            "alternativa_b": "Ficar sozinha",
+            "alternativa_c": "Fracassar",
+            "alternativa_d": "Ser rejeitada",
+            "resposta_correta": "A"
+        },
+        {
+            "pergunta": "Qual é o sonho de James?",
+            "alternativa_a": "Ser escritor",
+            "alternativa_b": "Ser fotógrafo profissional",
+            "alternativa_c": "Ser músico",
+            "alternativa_d": "Ser professor",
+            "resposta_correta": "B"
+        },
+        {
+            "pergunta": "Quem é a melhor amiga de Ruby?",
+            "alternativa_a": "Lydia",
+            "alternativa_b": "Ember",
+            "alternativa_c": "Grace",
+            "alternativa_d": "Alice",
+            "resposta_correta": "A"
+        },
+        {
+            "pergunta": "Qual amigo de Ruby é apaixonado por música?",
+            "alternativa_a": "Finn",
+            "alternativa_b": "Liam",
+            "alternativa_c": "Henry",
+            "alternativa_d": "Tom",
+            "resposta_correta": "A"
+        },
+        {
+            "pergunta": "Quem ajuda Ruby a superar seus medos?",
+            "alternativa_a": "James",
+            "alternativa_b": "Lydia",
+            "alternativa_c": "Grace",
+            "alternativa_d": "Finn",
+            "resposta_correta": "A"
+        },
+        {
+            "pergunta": "Qual é o lema da escola Maxton Hall?",
+            "alternativa_a": "Excelência e Honra",
+            "alternativa_b": "Conhecimento é Poder",
+            "alternativa_c": "Unidos pela Educação",
+            "alternativa_d": "Aprender e Crescer",
+            "resposta_correta": "A"
+        },
+        {
+            "pergunta": "Qual é o evento mais esperado do ano na escola?",
+            "alternativa_a": "Baile de Inverno",
+            "alternativa_b": "Feira de Ciências",
+            "alternativa_c": "Campeonato de Debate",
+            "alternativa_d": "Festival de Artes",
+            "resposta_correta": "A"
+        }
+    ]'
+);

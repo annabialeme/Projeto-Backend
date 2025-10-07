@@ -55,6 +55,7 @@ DB_PASSWORD=ds564
 DB_PORT=7777
 
 # Chave de API
+API_KEY=6JSaZI710b49Ow2DPPLJfpxdtoC5m0
 
 ###5️⃣ Execute as Migrações
 Execute o script SQL localizado em src/database/schema.sql no seu banco de dados para criar as tabelas.

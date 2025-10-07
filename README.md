@@ -45,7 +45,7 @@ CREATE DATABASE maxton;
 Na raiz do projeto, crie um arquivo chamado .env com as seguintes configurações:
 
 # Configurações do Servidor
-PORT=3000
+PORT=4000
 
 # Configurações do Banco de Dados
 DB_USER=postgres
